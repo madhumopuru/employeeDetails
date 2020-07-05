@@ -55,6 +55,10 @@ export class EditemployeeComponent implements OnInit {
     this.empgender = empdetails.gender;
     this.empdob =  new Date(empdetails.dateofBirth);
     this.empcount = empdetails.employeecount;
+    this.maxDate.setDate(this.maxDate.getDate());
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
+    this.startDate = this.maxDate;
+
    
    
   }
