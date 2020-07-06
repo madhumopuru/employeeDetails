@@ -1,18 +1,18 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 import * as moment from 'moment';
+import {MatDialog} from '@angular/material/dialog';
+import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
+import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-editemployee',
-  templateUrl: './editemployee.component.html',
-  styleUrls: ['./editemployee.component.scss'],
+  selector: 'app-create-employee',
+  templateUrl: './create-employee.component.html',
+  styleUrls: ['./create-employee.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class EditemployeeComponent implements OnInit {
-  
+export class CreateEmployeeComponent implements OnInit {
+
   numberOnly(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -25,6 +25,9 @@ export class EditemployeeComponent implements OnInit {
   maxDate = new Date(Date.now());
   startDate: Date;
  
+
+
+
   firstNameForm = new FormControl();
   lastNameForm = new FormControl();
   emailForm = new FormControl();
@@ -32,42 +35,30 @@ export class EditemployeeComponent implements OnInit {
   genderForm = new FormControl();
   dobForm = new FormControl();
 
-  constructor(public dialog: MatDialog,
-    public dialogRef: MatDialogRef<EditemployeeComponent>,
-    @Inject(MAT_DIALOG_DATA) public  data: {employeeDetails: any}) {
+  constructor(public dialog: MatDialog, private router: Router) {}
+  employeeArry=[]
 
-    }
-  empid;
-  empfirstName;
-  empLastName;
-  empemaail;
-  empage;
-  empgender;
-  empdob;
-
-  ngOnInit(): void {
-    let empdetails = this.data.employeeDetails
-   // console.log(this.data.employeeDetails)
-    this.empfirstName = empdetails.firstName;
-    this.empLastName = empdetails.lastName;
-    this.empemaail = empdetails.email;
-    this.empage = empdetails.age;
-    this.empgender = empdetails.gender;
-    this.empdob =  new Date(empdetails.dateofBirth);
-    this.empid = empdetails.id;
+ 
+  count=0;
+  ngOnInit(){
     this.maxDate.setDate(this.maxDate.getDate());
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
     this.startDate = this.maxDate;
-
-   
-   
-  }
+    localStorage.clear();
   
-  onNoClick(){
-    let params;
-    this.dialogRef.close({data:params});
+  
   }
-  editEmployee(){
+ 
+  
+
+  genericAlert(title,body) {
+    this.dialog.open(AlertDialogComponent, {
+      minWidth: '250px',
+      data: {title: title,body:body,actions:["Ok"]}
+    });
+  }
+
+  submitEmployee(){
 
     let params = {};
 
@@ -114,31 +105,27 @@ export class EditemployeeComponent implements OnInit {
     let dt_evaluate_date: Date = new Date(dt_evaluate);
     params["dateofBirth"] = moment(dt_evaluate_date).format("YYYY-MM-DD");
 
-    params["id"] = this.empid;
+    params["id"] = new Date().getTime();
 
-    //console.log(params)
-    this.dialogRef.close({data:params});
 
-  }
+    this.employeeArry.push(params)
 
-  genericAlert(title,body) {
-    this.dialog.open(AlertDialogComponent, {
+
+    var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
+
+    oldItems.push(params);
+
+    localStorage.setItem('itemsArray', JSON.stringify(oldItems));
+  
+   this.router.navigate(['employeeDetails']);
+
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
       minWidth: '250px',
-      data: {title: title,body:body,actions:["Ok"]}
+      data: {  body: "Successfully you have created employee", actions: ["OK"] }
     });
+
+    
   }
-
-}
-
-export interface employeeDetails{
-  id:number
-  employeecount: number;
-  firstName: string; 
-  lastName: string;
-  email: string; 
-  age: string;
-  gender: string; 
-  dateofBirth: string; 
-
+ 
 }
 

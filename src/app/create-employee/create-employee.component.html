@@ -1,0 +1,46 @@
+<div class="main">
+    <div class="create_employee_header">
+      <h5>Employee Creation</h5>
+    </div>
+    <div class="emp_form_details">
+      <mat-form-field class="example-full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput [formControl]="firstNameForm" required>
+      </mat-form-field>
+  
+      <mat-form-field class="example-full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput [formControl]="lastNameForm" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input type="email" matInput  [formControl]="emailForm" 
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Age</mat-label>
+        <input matInput (keypress)="numberOnly($event)"   [formControl]="ageForm" 
+                                minlength="1" maxlength="2" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-select placeholder="Gender" [formControl]="genderForm" required>
+          <mat-option value="Male">Male</mat-option>
+          <mat-option value="FeMale">FeMale</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field >
+        <mat-label>Date Of Birth</mat-label>
+        <input matInput [max]="startDate"  [formControl]="dobForm" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+    <div class="form_submit">
+      <button mat-raised-button color="primary" (click)="submitEmployee()">Submit</button>
+    </div>
+    </div>
+   </div>

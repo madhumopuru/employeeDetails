@@ -18,12 +18,16 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import { EditemployeeComponent } from './editemployee/editemployee.component';
+import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
+import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlertDialogComponent,
-    EditemployeeComponent
+    EditemployeeComponent,
+    EmployeeDetailsComponent,
+    CreateEmployeeComponent
   ],
   imports: [
     BrowserModule,
